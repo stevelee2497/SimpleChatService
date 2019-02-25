@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 ChatApp/ChatApp/Resources/Resource\.designer\.cs
+
+ChatApp/ChatApp\.Droid/Resources/Resource\.designer\.cs

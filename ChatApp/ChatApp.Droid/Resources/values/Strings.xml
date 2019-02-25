@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">ChatApp</string>
+    <string name="app_name">ChatApp.Droid</string>
     <string name="action_settings">Settings</string>
 </resources>
