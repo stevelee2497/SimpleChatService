@@ -1,3 +1,4 @@
+using ChatServer.BLL.Extensions;
 using ChatServer.BLL.Helpers;
 using ChatServer.DAL.Contexts;
 using ChatServer.DB;
@@ -39,6 +40,7 @@ namespace ChatServer
 			services.AddCors();
 			services.AddSingleton(Configuration);
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddWebDataLayer();
 
 			services.AddDbContext<DatabaseContext>(options =>
 			{

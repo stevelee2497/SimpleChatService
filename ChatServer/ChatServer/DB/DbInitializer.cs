@@ -18,7 +18,7 @@ namespace ChatServer.DB
 		private static void SeedUser(IServiceProvider services)
 		{
 			var userService = services.GetService<IUserService>();
-			if (userService.Count() == 0)
+			if (userService.Count() > 0)
 			{
 				return;
 			}
@@ -30,7 +30,7 @@ namespace ChatServer.DB
 				new User {DisplayName = "Lâm Nguyễn"},
 				new User {DisplayName = "Quốc Trần"}
 			};
-			userService.CreateMany(users, out _);
+			userService.CreateMany(users, out var isSaved);
 		}
 
 		private static void SeedConversation(IServiceProvider services)
@@ -38,7 +38,7 @@ namespace ChatServer.DB
 			var conversationService = services.GetService<IConversationService>();
 			var userService = services.GetService<IUserService>();
 			var userConversationService = services.GetService<IUserConversationService>();
-			if (conversationService.Count() == 0)
+			if (conversationService.Count() > 0)
 			{
 				return;
 			}
