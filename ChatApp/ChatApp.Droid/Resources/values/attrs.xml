@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<resources>
+	<declare-styleable name="BindableWebView">
+		<attr name="TextAlign" format="string"/>
+		<attr name="Font" format="string"/>
+		<attr name="TextSize" format="string"/>
+		<attr name="TextColor" format="string"/>
+	</declare-styleable>
+</resources>

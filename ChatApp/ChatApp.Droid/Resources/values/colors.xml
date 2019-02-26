@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2c3e50</color>
-    <color name="colorPrimaryDark">#1B3147</color>
-    <color name="colorAccent">#3498db</color>
+	<color name="colorPrimary">#3fb8ea</color>
+	<color name="colorPrimaryDark">#0d70b2</color>
+	<color name="colorSecondary">#0d70b2</color>
+	<color name="colorAccent">#3498db</color>
+	<color name="colorSeparateHeaderLine">#cccccc</color>
+	<color name="black">#000</color>
+	<color name="white">#fff</color>
+	<color name="line">#7dbef4</color>
+	<color name="divider">#E0EFF7</color>
+	<color name="default_text_color">#e4e4e4</color>
+	<color name="default_popup_text_color">#cccccc</color>
+	<color name="login_title_color">#3EB9E9</color>
+	<color name="default_editText_field_color">#F3F3F3</color>
+	<color name="grey_line_color">#f2f2f2</color>
+	<color name="post_line_color">#7dbef4</color>
+	<color name="gray">#cccccc</color>
+	<color name="dark_gray">#666666</color>
+	<color name="collection_view_background">#F4F5F4</color>
+	<color name="text_normal_color">#EEF2F5</color>
+	<color name="button_off">#F2F2F2</color>
+	<color name="message_background_others">#86BBE1</color>
 </resources>

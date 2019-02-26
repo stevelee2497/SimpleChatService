@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_normal">
+
+	<ffimageloading.cross.MvxCachedImageView
+		android:layout_width="@dimen/image_avatar_size"
+		android:layout_height="@dimen/image_avatar_size"
+		android:layout_marginLeft="@dimen/margin_normal"
+		android:layout_marginRight="@dimen/margin_normal"
+		android:src="@drawable/default_avatar"
+		local:MvxBind="Transformations Transformations" />
+	/>
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="@dimen/message_margin_right"
+		android:background="@drawable/message_background"
+		android:gravity="center|left"
+		android:minHeight="20dp"
+		android:paddingBottom="7dp"
+		android:paddingLeft="15dp"
+		android:paddingRight="15dp"
+		android:paddingTop="7dp"
+		android:textColor="@color/white" 
+		local:MvxBind="Text MessageContent"/>
+</LinearLayout>
