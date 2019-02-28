@@ -20,6 +20,7 @@ namespace ChatServer.DAL.Models
 
 		#endregion
 
-        public virtual ICollection<UserConversation> UserConversations { get; set; }
-	}
+	    public virtual ICollection<Connection> Connections { get; set; }
+	    public virtual ICollection<UserConversation> UserConversations { get; set; }
+    }
 }

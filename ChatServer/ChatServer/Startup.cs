@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 
 namespace ChatServer
 {
@@ -36,7 +37,7 @@ namespace ChatServer
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-			services.AddSingleton((IConfigurationRoot)Configuration);
+			services.AddSingleton((IConfigurationRoot) Configuration);
 			services.AddCors();
 			services.AddSingleton(Configuration);
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -47,7 +48,11 @@ namespace ChatServer
 				options.UseSqlServer(Configuration.GetConnectionString("Main"));
 			});
 
-			services.AddSignalR();
+			services.AddSignalR().AddJsonProtocol(options =>
+			{
+				options.PayloadSerializerSettings.ContractResolver =
+					new DefaultContractResolver();
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

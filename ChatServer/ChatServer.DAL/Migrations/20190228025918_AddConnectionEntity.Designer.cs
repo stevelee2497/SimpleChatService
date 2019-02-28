@@ -4,14 +4,16 @@ using ChatServer.DAL.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChatServer.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190228025918_AddConnectionEntity")]
+    partial class AddConnectionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +131,7 @@ namespace ChatServer.DAL.Migrations
 
             modelBuilder.Entity("ChatServer.DAL.Models.Connection", b =>
                 {
-                    b.HasOne("ChatServer.DAL.Models.User", "User")
+                    b.HasOne("ChatServer.DAL.Models.User")
                         .WithMany("Connections")
                         .HasForeignKey("UserId");
                 });
