@@ -6,6 +6,7 @@ using ChatServer.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -74,7 +75,17 @@ namespace ChatServer
 
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
-			app.UseSignalR(routes => { routes.MapHub<ChatHub>("/chatHub"); });
+			app.UseSignalR((configure) =>
+			{
+				var desiredTransports =
+					HttpTransportType.WebSockets |
+					HttpTransportType.LongPolling;
+
+				configure.MapHub<ChatHub>("/chatHub", (options) =>
+				{
+					options.Transports = desiredTransports;
+				});
+			});
 			app.UseMvc();
 			DbInitializer.Seed(app.ApplicationServices);
 		}

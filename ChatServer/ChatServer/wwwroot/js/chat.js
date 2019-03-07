@@ -1,6 +1,12 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub",
+		{
+			skipNegotiation: true,
+			transport: signalR.HttpTransportType.LongPolling | signalR.HttpTransportType.WebSockets,
+			headers: { userId: "BDA03A42-4CED-4AFE-A142-887AFEBCF45C"}
+		})
+	.build();
 
 //Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;

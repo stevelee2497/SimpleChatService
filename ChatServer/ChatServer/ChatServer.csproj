@@ -8,6 +8,9 @@
     <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore" Version="1.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />

@@ -23,12 +23,9 @@ namespace ChatServer.Hubs
 
 		public override Task OnConnectedAsync()
 		{
-			// find the connected user
-			//var userId = Guid.Parse(Context.User.Identity.Name);
-			//var user = _userService.Include(x => x.UserConversations).ThenInclude(x => x.Conversation)
-			//	.Single(u => u.Id.Equals(userId));
+			var userId = Guid.Parse(Context.GetHttpContext().Request.Headers["userId"]);
 
-			var user = _userService.Include(x => x.UserConversations).ThenInclude(x => x.Conversation).First();
+			var user = _userService.Include(x => x.UserConversations).ThenInclude(x => x.Conversation).Single(u => u.Id == userId);
 
 			foreach (var conversation in user.UserConversations)
 			{
@@ -47,7 +44,7 @@ namespace ChatServer.Hubs
 				UserConversationId = Guid.Parse(userId),
 				MessageContent = message
 			}, out bool isSaved);
-			await Clients.Group("5C0FD2D3-84C2-4E07-9280-FCC92EF0512A").SendAsync("ReceiveMessage", userId, message);
+			await Clients.Group("5C0FD2D3-84C2-4E07-9280-FCC92EF0512A".ToLower()).SendAsync("ReceiveMessage", userId, message);
 		}
 
 		public async Task AddToGroup(string groupId)
