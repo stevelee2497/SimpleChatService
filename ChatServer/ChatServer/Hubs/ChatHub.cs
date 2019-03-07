@@ -2,6 +2,8 @@
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
+using ChatServer.BLL.Requests;
+using ChatServer.BLL.Responses;
 using ChatServer.BLL.Services;
 using ChatServer.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +31,7 @@ namespace ChatServer.Hubs
 
 			foreach (var conversation in user.UserConversations)
 			{
-				var groupName = conversation.ConversationId.ToString();
+				var groupName = conversation.ConversationId.ToString().ToLower();
 				Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 			}
 
@@ -37,14 +39,18 @@ namespace ChatServer.Hubs
 		}
 		
 
-		public async Task SendMessage(string userId, string message)
+		public async Task SendMessage(MessageRequest messageRequest)
 		{
 			_messageService.Create(new Message
 			{
-				UserConversationId = Guid.Parse(userId),
-				MessageContent = message
+				UserConversationId = Guid.Parse(messageRequest.UserConversationId),
+				MessageContent = messageRequest.MessageContent
 			}, out bool isSaved);
-			await Clients.Group("5C0FD2D3-84C2-4E07-9280-FCC92EF0512A".ToLower()).SendAsync("ReceiveMessage", userId, message);
+			await Clients.Group(messageRequest.ConversationId.ToLower()).SendAsync("ReceiveMessage", new MessageResponse
+			{
+				MessageContent = messageRequest.MessageContent,
+				UserDisplayName = _userService.Find(Guid.Parse(messageRequest.UserId)).DisplayName
+			});
 		}
 
 		public async Task AddToGroup(string groupId)
