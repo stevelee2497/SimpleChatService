@@ -7,7 +7,7 @@ namespace ChatApp.Core
 	{
 		public override void Initialize()
 		{
-			RegisterAppStart<HomeViewModel>();
+			RegisterAppStart<LoginViewModel>();
 		}
 	}
 }

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
-using ChatServer.BLL.Requests;
+﻿using ChatServer.BLL.Requests;
 using ChatServer.BLL.Responses;
 using ChatServer.BLL.Services;
 using ChatServer.DAL.Models;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ChatServer.Hubs
 {
@@ -37,15 +37,15 @@ namespace ChatServer.Hubs
 
 			return base.OnConnectedAsync();
 		}
-		
 
+		// ReSharper disable UnusedMember.Global
 		public async Task SendMessage(MessageRequest messageRequest)
 		{
 			_messageService.Create(new Message
 			{
 				UserConversationId = Guid.Parse(messageRequest.UserConversationId),
 				MessageContent = messageRequest.MessageContent
-			}, out bool isSaved);
+			}, out _);
 			await Clients.Group(messageRequest.ConversationId.ToLower()).SendAsync("ReceiveMessage", new MessageResponse
 			{
 				MessageContent = messageRequest.MessageContent,

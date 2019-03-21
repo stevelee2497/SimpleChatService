@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ChatServer
 {
@@ -54,6 +55,8 @@ namespace ChatServer
 				options.PayloadSerializerSettings.ContractResolver =
 					new DefaultContractResolver();
 			});
+
+			services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "Chat Server API", Version = "v1"}); });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,15 +80,23 @@ namespace ChatServer
 			app.UseCookiePolicy();
 			app.UseSignalR((configure) =>
 			{
-				var desiredTransports =
-					HttpTransportType.WebSockets |
-					HttpTransportType.LongPolling;
+				var desiredTransports = HttpTransportType.WebSockets | HttpTransportType.LongPolling;
 
-				configure.MapHub<ChatHub>("/chatHub", (options) =>
-				{
-					options.Transports = desiredTransports;
-				});
+				configure.MapHub<ChatHub>("/chatHub", (options) => { options.Transports = desiredTransports; });
 			});
+
+			// Enable middleware to serve generated Swagger as a JSON endpoint.
+			app.UseSwagger();
+
+			// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+			// specifying the Swagger JSON endpoint.
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat Server Api v1");
+				c.RoutePrefix = string.Empty;
+			});
+
+
 			app.UseMvc();
 			DbInitializer.Seed(app.ApplicationServices);
 		}
