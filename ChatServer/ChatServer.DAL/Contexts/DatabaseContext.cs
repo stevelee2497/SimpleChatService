@@ -27,8 +27,7 @@ namespace ChatServer.DAL.Contexts
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(
-				"Data Source=192.168.51.90;Initial Catalog=chat_server;User ID=sa;Password=Root@123;");
+			optionsBuilder.UseSqlServer("Data Source=192.168.51.90;Initial Catalog=chat_server;User ID=sa;Password=Root@123;");
 		}
 	}
 
