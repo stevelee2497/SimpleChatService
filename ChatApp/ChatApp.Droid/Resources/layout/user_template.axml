@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="@dimen/margin_normal">
+
+	<ffimageloading.cross.MvxCachedImageView
+		android:layout_width="@dimen/image_avatar_size"
+		android:layout_height="@dimen/image_avatar_size"
+		android:layout_marginLeft="30dp"
+		android:layout_marginRight="@dimen/margin_normal"
+		android:src="@drawable/default_avatar"
+		local:MvxBind="Transformations Transformations" />
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="user name"
+		android:textSize="18sp" />
+
+</LinearLayout>
