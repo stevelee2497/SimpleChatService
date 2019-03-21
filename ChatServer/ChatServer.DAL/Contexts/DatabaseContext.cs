@@ -28,7 +28,7 @@ namespace ChatServer.DAL.Contexts
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlServer(
-				"Data Source=C7DZQ12\\SQLEXPRESS;Initial Catalog=turnmeup;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+				"Data Source=192.168.51.90;Initial Catalog=chat_server;User ID=sa;Password=Root@123;");
 		}
 	}
 
