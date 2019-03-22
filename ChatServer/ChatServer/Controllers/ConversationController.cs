@@ -8,12 +8,12 @@ namespace ChatServer.Controllers
 	[Route("api/conversations")]
 	public class ConversationController : Controller
 	{
-		private readonly IUserService _userService;
+		private readonly IConversationService _conversationService;
 
 		/// <inheritdoc />
-		public ConversationController(IUserService userService)
+		public ConversationController(IConversationService conversationService)
 		{
-			_userService = userService;
+			_conversationService = conversationService;
 		}
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace ChatServer.Controllers
 		[Produces("application/json")]
 		public BaseResponse GetAllConversation([FromHeader]IDictionary<string, string> @params)
 		{
-			return _userService.GetAllUser(@params);
+			return _conversationService.GetAllConversation(@params);
 		}
 	}
 }

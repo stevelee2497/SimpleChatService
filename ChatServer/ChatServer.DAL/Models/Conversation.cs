@@ -6,6 +6,6 @@ namespace ChatServer.DAL.Models
     [Table("Conversation")]
     public class Conversation : BaseEntity
     {
-        public virtual List<UserConversation> Conversations { get; set; }
+        public virtual List<UserConversation> UserConversations { get; set; }
     }
 }

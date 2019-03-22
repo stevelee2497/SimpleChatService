@@ -145,7 +145,7 @@ namespace ChatServer.DAL.Migrations
             modelBuilder.Entity("ChatServer.DAL.Models.UserConversation", b =>
                 {
                     b.HasOne("ChatServer.DAL.Models.Conversation", "Conversation")
-                        .WithMany("Conversations")
+                        .WithMany("UserConversations")
                         .HasForeignKey("ConversationId");
 
                     b.HasOne("ChatServer.DAL.Models.User", "User")

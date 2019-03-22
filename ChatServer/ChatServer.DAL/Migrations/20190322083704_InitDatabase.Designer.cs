@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatServer.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190228034231_AddRelationship")]
-    partial class AddRelationship
+    [Migration("20190322083704_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace ChatServer.DAL.Migrations
             modelBuilder.Entity("ChatServer.DAL.Models.UserConversation", b =>
                 {
                     b.HasOne("ChatServer.DAL.Models.Conversation", "Conversation")
-                        .WithMany("Conversations")
+                        .WithMany("UserConversations")
                         .HasForeignKey("ConversationId");
 
                     b.HasOne("ChatServer.DAL.Models.User", "User")

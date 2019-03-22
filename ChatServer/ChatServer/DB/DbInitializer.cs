@@ -13,6 +13,7 @@ namespace ChatServer.DB
 		{
 			SeedUser(services);
 			SeedConversation(services);
+			SeedMessages(services);
 		}
 
 		private static void SeedUser(IServiceProvider services)
@@ -38,6 +39,8 @@ namespace ChatServer.DB
 			var conversationService = services.GetService<IConversationService>();
 			var userService = services.GetService<IUserService>();
 			var userConversationService = services.GetService<IUserConversationService>();
+			var messageService = services.GetService<IMessageService>();
+
 			if (conversationService.Count() > 0)
 			{
 				return;
@@ -55,6 +58,29 @@ namespace ChatServer.DB
 					},
 					out isSaved);
 			}
+		}
+
+		private static void SeedMessages(IServiceProvider services)
+		{
+			var messageService = services.GetService<IMessageService>();
+			var userConversationService = services.GetService<IUserConversationService>();
+
+			if (messageService.Count() > 0)
+			{
+				return;
+			}
+
+			var userA = userConversationService.All().First();
+			var userB = userConversationService.All().First();
+
+			messageService.CreateMany(new[]
+			{
+				new Message { UserConversationId = userA.Id, MessageContent = "A test"},
+				new Message { UserConversationId = userB.Id, MessageContent = "B test"},
+				new Message { UserConversationId = userA.Id, MessageContent = "A test"},
+				new Message { UserConversationId = userA.Id, MessageContent = "A test"},
+				new Message { UserConversationId = userB.Id, MessageContent = "B test"},
+			}, out _);
 		}
 	}
 }

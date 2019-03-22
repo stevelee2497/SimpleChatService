@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ChatServer.DAL.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class InitDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace ChatServer.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    IsActivated = table.Column<bool>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
                     CreatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false)
                 },
@@ -26,12 +26,10 @@ namespace ChatServer.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    IsActivated = table.Column<bool>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
                     CreatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
                     DisplayName = table.Column<string>(maxLength: 40, nullable: true),
-                    PasswordSalt = table.Column<byte[]>(nullable: false),
-                    PasswordHash = table.Column<byte[]>(nullable: false),
                     AvatarUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -40,11 +38,34 @@ namespace ChatServer.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Connection",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
+                    CreatedTime = table.Column<DateTimeOffset>(nullable: false),
+                    UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
+                    UserAgent = table.Column<string>(nullable: true),
+                    Connected = table.Column<bool>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Connection", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Connection_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserConversation",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    IsActivated = table.Column<bool>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
                     CreatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UserId = table.Column<Guid>(nullable: true),
@@ -72,7 +93,7 @@ namespace ChatServer.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    IsActivated = table.Column<bool>(nullable: false),
+                    EntityStatus = table.Column<int>(nullable: false),
                     CreatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UpdatedTime = table.Column<DateTimeOffset>(nullable: false),
                     UserConversationId = table.Column<Guid>(nullable: false),
@@ -88,6 +109,11 @@ namespace ChatServer.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Connection_UserId",
+                table: "Connection",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Message_UserConversationId",
@@ -107,6 +133,9 @@ namespace ChatServer.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Connection");
+
             migrationBuilder.DropTable(
                 name: "Message");
 
