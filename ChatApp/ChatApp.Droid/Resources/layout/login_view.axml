@@ -28,7 +28,7 @@
 		android:layout_above="@+id/comment_box"
 		android:layout_below="@+id/topBar"
 		android:scrollbars="vertical"
-		local:MvxTemplate="user_template"
-		local:MvxBind="ItemsSource UserViewModels"/>
+		local:MvxBind="ItemsSource UserViewModels"
+		local:MvxItemTemplate="@layout/user_template"/>
 
 </LinearLayout>

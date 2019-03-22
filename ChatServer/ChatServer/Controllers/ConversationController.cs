@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatServer.Controllers
 {
-	[Route("api/users")]
-	public class UserController : Controller
+	[Route("api/conversations")]
+	public class ConversationController : Controller
 	{
 		private readonly IUserService _userService;
 
 		/// <inheritdoc />
-		public UserController(IUserService userService)
+		public ConversationController(IUserService userService)
 		{
 			_userService = userService;
 		}
@@ -23,7 +23,7 @@ namespace ChatServer.Controllers
 		/// <returns>BaseResponse</returns>
 		[HttpGet]
 		[Produces("application/json")]
-		public BaseResponse GetAllUser([FromHeader]IDictionary<string, string> @params)
+		public BaseResponse GetAllConversation([FromHeader]IDictionary<string, string> @params)
 		{
 			return _userService.GetAllUser(@params);
 		}

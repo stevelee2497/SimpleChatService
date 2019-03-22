@@ -1,4 +1,7 @@
-﻿using ChatApp.Core.ViewModels;
+﻿using ChatApp.Core.Services;
+using ChatApp.Core.ViewModels;
+using MvvmCross;
+using MvvmCross.IoC;
 using MvvmCross.ViewModels;
 
 namespace ChatApp.Core
@@ -7,6 +10,10 @@ namespace ChatApp.Core
 	{
 		public override void Initialize()
 		{
+			base.Initialize();
+
+			Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IManagementService, ManagementService>();
+
 			RegisterAppStart<LoginViewModel>();
 		}
 	}
