@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChatServer.BLL.Requests;
 using ChatServer.BLL.Responses;
 using ChatServer.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,18 @@ namespace ChatServer.Controllers
 		public BaseResponse GetConversationDetail(Guid id)
 		{
 			return _conversationService.GetConversationDetail(id);
+		}
+
+		/// <summary>
+		/// Create a new conversation
+		/// </summary>
+		/// <param name="conversationRequest"></param>
+		/// <returns>BaseResponse</returns>
+		[HttpPost]
+		[Produces("application/json")]
+		public BaseResponse Create([FromBody]ConversationRequest conversationRequest)
+		{
+			return _conversationService.Create(conversationRequest);
 		}
 	}
 }
