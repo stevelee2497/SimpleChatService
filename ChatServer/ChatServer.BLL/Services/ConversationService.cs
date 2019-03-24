@@ -15,30 +15,28 @@ namespace ChatServer.BLL.Services
 
 	public class ConversationService : EntityService<Conversation>, IConversationService
 	{
-		private IUserConversationService _userConversationService;
+		private readonly IMessageService _messageService;
 
-		public ConversationService(IUserConversationService userConversationService)
+		public ConversationService(IMessageService messageService)
 		{
-			_userConversationService = userConversationService;
+			_messageService = messageService;
 		}
 
-		public BaseResponse GetAllConversation(IDictionary<string, string> @params)
-		{
-			var conversations = All();
-
-			return new BaseResponse(HttpStatusCode.OK, data: conversations.Include(x => x.UserConversations)
-				.ThenInclude(x => x.User)
-				.Select(x => new
+		public BaseResponse GetAllConversation(IDictionary<string, string> @params) => new BaseResponse(
+			HttpStatusCode.OK,
+			data: _messageService.Include(x => x.UserConversation).ThenInclude(x => x.Conversation)
+				.Include(x => x.UserConversation).ThenInclude(x => x.User)
+				.GroupBy(x => x.UserConversation.ConversationId)
+				.Select(g => new
 				{
-					x.Id,
-					Users = x.UserConversations.Select(us => us.User),
-					Messages = x.UserConversations.Select(uc => uc.Messages.Select(m => new
+					g.Key,
+					users = g.GroupBy(u => u.UserConversation.User).Select(gg => gg.Key),
+					messages = g.Select(x => new
 					{
-						m.Id,
-						user = uc.User.DisplayName,
-						m.MessageContent
-					}))
+						x.Id,
+						x.UserConversation.User.DisplayName,
+						x.MessageContent,
+					})
 				}));
-		}
 	}
 }

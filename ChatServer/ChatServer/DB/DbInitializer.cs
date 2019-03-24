@@ -39,7 +39,6 @@ namespace ChatServer.DB
 			var conversationService = services.GetService<IConversationService>();
 			var userService = services.GetService<IUserService>();
 			var userConversationService = services.GetService<IUserConversationService>();
-			var messageService = services.GetService<IMessageService>();
 
 			if (conversationService.Count() > 0)
 			{
@@ -71,7 +70,7 @@ namespace ChatServer.DB
 			}
 
 			var userA = userConversationService.All().First();
-			var userB = userConversationService.All().First();
+			var userB = userConversationService.All().Last();
 
 			messageService.CreateMany(new[]
 			{
