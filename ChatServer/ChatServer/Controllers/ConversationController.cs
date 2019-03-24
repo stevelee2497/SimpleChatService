@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ChatServer.BLL.Responses;
 using ChatServer.BLL.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace ChatServer.Controllers
 		}
 
 		/// <summary>
-		/// Get profile of current logged in user
+		/// Get all conversations
 		/// </summary>
 		/// <param name="params"></param>
 		/// <returns>BaseResponse</returns>
@@ -26,6 +27,18 @@ namespace ChatServer.Controllers
 		public BaseResponse GetAllConversation([FromHeader]IDictionary<string, string> @params)
 		{
 			return _conversationService.GetAllConversation(@params);
+		}
+
+		/// <summary>
+		/// Get conversations of a specific user
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns>BaseResponse</returns>
+		[HttpGet("{id}")]
+		[Produces("application/json")]
+		public BaseResponse GetConversationDetail(Guid id)
+		{
+			return _conversationService.GetConversationDetail(id);
 		}
 	}
 }
