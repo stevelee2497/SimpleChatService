@@ -49,11 +49,12 @@ namespace ChatServer.BLL.Services
 				data: conversations.Select(g => new
 				{
 					id = g.Key,
-					users = g.GroupBy(u => u.UserConversation.User).Select(gg => new
+					users = g.GroupBy(u => u.UserConversation).Select(gg => new
 					{
-						gg.Key.Id,
-						gg.Key.DisplayName,
-						gg.Key.AvatarUrl
+						userId = gg.Key.UserId,
+						userConversationId = gg.Key.Id,
+						gg.Key.User.DisplayName,
+						gg.Key.User.AvatarUrl
 					}),
 					messages = g.Select(x => new
 					{
