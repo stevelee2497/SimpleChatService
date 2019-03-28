@@ -10,6 +10,7 @@ namespace ChatServer.DAL.Models
 	{
 	}
 
+	[DataContract]
 	public abstract class BaseEntity : IEntity
     {
         [Key]

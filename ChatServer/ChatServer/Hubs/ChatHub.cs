@@ -25,18 +25,24 @@ namespace ChatServer.Hubs
 
 		public override Task OnConnectedAsync()
 		{
-			var userId = Context.GetHttpContext().Request.Headers["userId"];
-
-			// TODO: change the function below with userId instead of userIndex
-			var user = _userService.Include(x => x.UserConversations)
-				.ThenInclude(x => x.Conversation)
-				.ToList()
-				.ElementAt(Convert.ToInt32(userId));
-
-			foreach (var conversation in user.UserConversations)
+			try
 			{
-				var groupName = conversation.ConversationId.ToString().ToLower();
-				Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+				var userId = Guid.Parse(Context.GetHttpContext().Request.Headers["userId"]);
+
+				var user = _userService.Include(x => x.UserConversations)
+					.ThenInclude(x => x.Conversation)
+					.ToList()
+					.First(x => x.Id == userId);
+
+				foreach (var conversation in user.UserConversations)
+				{
+					var groupName = conversation.ConversationId.ToString().ToLower();
+					Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
 			}
 
 			return base.OnConnectedAsync();

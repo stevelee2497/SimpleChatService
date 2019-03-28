@@ -19,10 +19,10 @@ namespace ChatApp.Core.ViewModels
 			set => SetProperty(ref _userViewModels, value);
 		}
 
-		public string UserId
+		public string UserIndex
 		{
-			get => _userId;
-			set => SetProperty(ref _userId, value);
+			get => _userIndex;
+			set => SetProperty(ref _userIndex, value);
 		}
 
 		public string UserName
@@ -33,9 +33,9 @@ namespace ChatApp.Core.ViewModels
 
 		public IMvxCommand OnLoginCommand => _loginCommand ?? (_loginCommand = new MvxAsyncCommand(GetUsers));
 
-		private string _userId;
-		private string _userName;
 		private User _user;
+		private string _userIndex;
+		private string _userName;
 		private HubConnection _connection;
 		private IMvxCommand _loginCommand;
 		private readonly IManagementService _managementService;
@@ -51,17 +51,17 @@ namespace ChatApp.Core.ViewModels
 		{
 			try
 			{
+				_user = await _managementService.GetUserDetail(Convert.ToInt32(UserIndex));
+				UserName = _user.DisplayName;
+
 				_connection = new HubConnectionBuilder()
-					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = UserId; })
+					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = _user.Id; })
 					.Build();
 
 				_connection.On<MessageResponse>("ReceiveMessage", message => { });
 
-				UserViewModels.AddRange((await _managementService.GetUserFriendList(UserId))
+				UserViewModels.AddRange((await _managementService.GetUserFriendList(_user.Id))
 					.Select(x => new UserViewModel(x.AvatarUrl, x.DisplayName)));
-
-				_user = await _managementService.GetUserDetail(Convert.ToInt32(UserId));
-				UserName = _user.DisplayName;
 
 				await _connection.StartAsync();
 			}

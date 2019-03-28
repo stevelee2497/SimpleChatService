@@ -28,7 +28,7 @@ namespace ChatApp.Core.Services
 				//TODO: change userIndex to userId later
 				var responseData = await _apiHelper.Get("users", parameters: new Dictionary<string, string>
 				{
-					{"userIndex", userId}
+					{"userId", userId}
 				});
 				return JsonConvert.DeserializeObject<List<User>>(responseData.Data.ToString());
 			}

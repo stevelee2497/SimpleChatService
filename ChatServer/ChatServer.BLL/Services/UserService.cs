@@ -24,15 +24,7 @@ namespace ChatServer.BLL.Services
 	    {
 		    var users = All();
 
-		    var requestParams = @params.ToObject<UserRequest>();
-
-			// filter request with param @index
-			// get all friends of user at index = @index
-		    if (requestParams.UserIndex != null)
-		    {
-			    var user = users.ToList().ElementAt(Convert.ToInt32(requestParams.UserIndex));
-			    users = users.Where(x => x.Id != user.Id);
-		    }
+		    users = FilterUserWithParams(users, @params);
 
 			return new BaseResponse(HttpStatusCode.OK, data: users.Select(x => new
 		    {
@@ -45,6 +37,29 @@ namespace ChatServer.BLL.Services
 	    public BaseResponse ElementAt(int id)
 	    {
 		    return new BaseResponse(HttpStatusCode.OK, data:All().ToList().ElementAt(id));
+	    }
+
+	    private IQueryable<User> FilterUserWithParams(IQueryable<User> users, IDictionary<string, string> @params)
+	    {
+		    var requestParams = @params.ToObject<UserRequest>();
+
+		    // filter request with param @index
+		    // get all friends of user at index = @index
+		    if (requestParams.UserIndex != null)
+		    {
+			    var user = users.ToList().ElementAt(Convert.ToInt32(requestParams.UserIndex));
+			    users = users.Where(x => x.Id != user.Id);
+		    }
+
+		    // filter request with param @index
+		    // get all friends of user at index = @index
+		    if (requestParams.UserId != null)
+		    {
+			    var userId = Guid.Parse(requestParams.UserId);
+			    users = users.Where(x => x.Id != userId);
+		    }
+
+		    return users;
 	    }
     }
 }

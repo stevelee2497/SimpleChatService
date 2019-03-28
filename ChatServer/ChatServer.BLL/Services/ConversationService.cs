@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using ChatServer.DAL.Exceptions;
 
 namespace ChatServer.BLL.Services
 {
@@ -88,10 +89,14 @@ namespace ChatServer.BLL.Services
 
 		public BaseResponse Create(ConversationRequest conversationRequest)
 		{
-			var isSaved = false;
-			if (!IsConversationExisted(conversationRequest))
+			var isSaved = true;
+			var conversation = Include(x => x.UserConversations).FirstOrDefault(x =>
+				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.UserId) &&
+				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.ReceiverId));
+
+			if (conversation == null)
 			{
-				var conversation = Create(new Conversation(), out isSaved);
+				conversation = Create(new Conversation(), out isSaved);
 				_userConversationService.CreateMany(new[]
 				{
 					new UserConversation
@@ -107,14 +112,12 @@ namespace ChatServer.BLL.Services
 				}, out isSaved);
 			}
 
-			return isSaved ? new BaseResponse(HttpStatusCode.OK, data:"Created") : new BaseResponse(HttpStatusCode.InternalServerError);
-		}
+			if (!isSaved)
+			{
+				throw new InternalServerErrorException("Cannot create conversation between the 2 users");
+			}
 
-		private bool IsConversationExisted(ConversationRequest conversationRequest)
-		{
-			return Include(x => x.UserConversations).Any(x =>
-				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.UserId) &&
-				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.ReceiverId));
+			return new BaseResponse(HttpStatusCode.OK, data: conversation.Id);
 		}
 	}
 }

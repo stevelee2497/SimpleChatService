@@ -13,7 +13,7 @@
 		android:layout_height="wrap_content"
 		android:hint="input user id"
 		android:textAlignment="center"
-		local:MvxBind="Text UserId"/>
+		local:MvxBind="Text UserIndex"/>
 
 	<Button
 		android:layout_width="wrap_content"
