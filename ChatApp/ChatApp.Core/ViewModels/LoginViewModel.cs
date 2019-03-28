@@ -1,4 +1,5 @@
 ﻿using ChatApp.Core.Models;
+using ChatApp.Core.Services;
 using ChatApp.Core.ViewModels.Base;
 using ChatApp.Core.ViewModels.ItemTemplate;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -7,7 +8,6 @@ using MvvmCross.ViewModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatApp.Core.Services;
 
 namespace ChatApp.Core.ViewModels
 {
@@ -31,36 +31,38 @@ namespace ChatApp.Core.ViewModels
 			set => SetProperty(ref _userName, value);
 		}
 
-		public IMvxCommand OnLoginCommand => _loginCommand ?? (_loginCommand = new MvxAsyncCommand(GetUsers));
+		public IMvxCommand OnLoginCommand => _loginCommand ?? (_loginCommand = new MvxAsyncCommand(Login));
 
-		private User _user;
 		private string _userIndex;
 		private string _userName;
 		private HubConnection _connection;
 		private IMvxCommand _loginCommand;
+		private readonly IDataModel _dataModel;
 		private readonly IManagementService _managementService;
 		private MvxObservableCollection<UserViewModel> _userViewModels;
 
-		public LoginViewModel(IManagementService managementService)
+		public LoginViewModel(IManagementService managementService, IDataModel dataModel)
 		{
+			_dataModel = dataModel;
 			_managementService = managementService;
 			UserViewModels = new MvxObservableCollection<UserViewModel>();
 		}
 
-		private async Task GetUsers()
+		private async Task Login()
 		{
 			try
 			{
-				_user = await _managementService.GetUserDetail(Convert.ToInt32(UserIndex));
-				UserName = _user.DisplayName;
+				_dataModel.User = await _managementService.Login(Convert.ToInt32(UserIndex));
+				UserName = _dataModel.User.DisplayName;
 
 				_connection = new HubConnectionBuilder()
-					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = _user.Id; })
+					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = _dataModel.User.Id; })
 					.Build();
 
 				_connection.On<MessageResponse>("ReceiveMessage", message => { });
 
-				UserViewModels.AddRange((await _managementService.GetUserFriendList(_user.Id))
+				UserViewModels.Clear();
+				UserViewModels.AddRange((await _managementService.GetUserFriendList(_dataModel.User.Id))
 					.Select(x => new UserViewModel(x.AvatarUrl, x.DisplayName)));
 
 				await _connection.StartAsync();

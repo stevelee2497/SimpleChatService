@@ -9,7 +9,7 @@ namespace ChatApp.Core.Services
 	public interface IManagementService
 	{
 		Task<List<User>> GetUserFriendList(string userId);
-		Task<User> GetUserDetail(int userIndex);
+		Task<User> Login(int userIndex);
 	}
 
 	public class ManagementService : IManagementService
@@ -39,7 +39,7 @@ namespace ChatApp.Core.Services
 			}
 		}
 
-		public async Task<User> GetUserDetail(int userIndex)
+		public async Task<User> Login(int userIndex)
 		{
 			try
 			{
