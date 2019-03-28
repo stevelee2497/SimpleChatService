@@ -21,6 +21,14 @@
 		android:text="login"
 		local:MvxBind="Click OnLoginCommand"/>
 
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="My Name"
+        android:textSize="22sp"
+        local:MvxBind="Text UserName" />
+
 	<MvvmCross.Droid.Support.V7.RecyclerView.MvxRecyclerView
 		android:id="@+id/rvComment"
 		android:layout_width="match_parent"

@@ -25,9 +25,17 @@ namespace ChatApp.Core.ViewModels
 			set => SetProperty(ref _userId, value);
 		}
 
+		public string UserName
+		{
+			get => _userName;
+			set => SetProperty(ref _userName, value);
+		}
+
 		public IMvxCommand OnLoginCommand => _loginCommand ?? (_loginCommand = new MvxAsyncCommand(GetUsers));
 
 		private string _userId;
+		private string _userName;
+		private User _user;
 		private HubConnection _connection;
 		private IMvxCommand _loginCommand;
 		private readonly IManagementService _managementService;
@@ -44,13 +52,16 @@ namespace ChatApp.Core.ViewModels
 			try
 			{
 				_connection = new HubConnectionBuilder()
-					.WithUrl("https://3a3871a6.ngrok.io/chatHub", options => { options.Headers["userId"] = UserId; })
+					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = UserId; })
 					.Build();
 
 				_connection.On<MessageResponse>("ReceiveMessage", message => { });
 
-				UserViewModels.AddRange((await _managementService.GetUserList(UserId))
+				UserViewModels.AddRange((await _managementService.GetUserFriendList(UserId))
 					.Select(x => new UserViewModel(x.AvatarUrl, x.DisplayName)));
+
+				_user = await _managementService.GetUserDetail(Convert.ToInt32(UserId));
+				UserName = _user.DisplayName;
 
 				await _connection.StartAsync();
 			}
