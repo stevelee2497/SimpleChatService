@@ -1,4 +1,5 @@
-﻿using ChatApp.Core.Services;
+﻿using ChatApp.Core.Models;
+using ChatApp.Core.Services;
 using ChatApp.Core.ViewModels;
 using MvvmCross;
 using MvvmCross.IoC;
@@ -13,6 +14,7 @@ namespace ChatApp.Core
 			base.Initialize();
 
 			Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IManagementService, ManagementService>();
+			Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IDataModel, DataModel>();
 
 			RegisterAppStart<LoginViewModel>();
 		}
