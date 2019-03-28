@@ -15,6 +15,7 @@ namespace ChatServer.BLL.Services
 	public interface IUserService : IEntityService<User>
     {
 	    BaseResponse GetAllUser(IDictionary<string, string> @params);
+	    BaseResponse ElementAt(int id);
     }
 
     public class UserService : EntityService<User>, IUserService
@@ -39,6 +40,11 @@ namespace ChatServer.BLL.Services
 				x.DisplayName,
 				x.AvatarUrl,
 		    }));
+	    }
+
+	    public BaseResponse ElementAt(int id)
+	    {
+		    return new BaseResponse(HttpStatusCode.OK, data:All().ToList().ElementAt(id));
 	    }
     }
 }
