@@ -27,6 +27,7 @@ namespace ChatServer.Hubs
 		{
 			var userId = Context.GetHttpContext().Request.Headers["userId"];
 
+			// TODO: change the function below with userId instead of userIndex
 			var user = _userService.Include(x => x.UserConversations)
 				.ThenInclude(x => x.Conversation)
 				.ToList()
