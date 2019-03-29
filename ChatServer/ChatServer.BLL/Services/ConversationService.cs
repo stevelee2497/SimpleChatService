@@ -68,23 +68,40 @@ namespace ChatServer.BLL.Services
 
 		public BaseResponse GetConversationDetail(Guid id)
 		{
-			return new BaseResponse(
-				HttpStatusCode.OK,
-				data: _messageService.Include(x => x.UserConversation).ThenInclude(x => x.Conversation)
-					.Include(x => x.UserConversation).ThenInclude(x => x.User)
-					.GroupBy(x => x.UserConversation.ConversationId)
-					.Where(x => x.Key == id)
-					.Select(g => new
-				{
-					id = g.Key,
-					users = g.GroupBy(u => u.UserConversation.User).Select(gg => gg.Key),
-					messages = g.Select(x => new
-					{
-						x.Id,
-						x.UserConversation.User.DisplayName,
-						x.MessageContent,
-					})
-				}));
+			try
+			{
+				return new BaseResponse(
+					HttpStatusCode.OK,
+					data: _messageService.Include(x => x.UserConversation).ThenInclude(x => x.Conversation)
+						.Include(x => x.UserConversation).ThenInclude(x => x.User)
+						.GroupBy(x => x.UserConversation.ConversationId)
+						.Where(x => x.Key == id)
+						.Select(g => new
+						{
+							id = g.Key,
+							users = g.GroupBy(u => u.UserConversation.User).Select(gg => new
+							{
+								gg.Key.Id,
+								gg.Key.AvatarUrl,
+								gg.Key.DisplayName
+							}),
+							messages = g.OrderByDescending(x => x.CreatedTime).Select(x => new
+							{
+								x.Id,
+								userId = x.UserConversation.UserId,
+								conversationId = x.UserConversation.ConversationId,
+								userConversationId = x.UserConversationId,
+								x.MessageContent,
+								x.UserConversation.User.DisplayName,
+								x.UserConversation.User.AvatarUrl
+							})
+						})
+						.First());
+			}
+			catch (Exception)
+			{
+				throw new DataNotFoundException("no conversation founded");
+			}
 		}
 
 		public BaseResponse Create(ConversationRequest conversationRequest)
