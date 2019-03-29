@@ -14,7 +14,7 @@ namespace ChatApp.Core.Services
 		Task<List<User>> GetUserFriendList(string userId);
 		Task<User> Login(int userIndex);
 		Task<Conversation> FetchConversation(string conversationId);
-		Task<Guid> CreateConversation(NewConversationRequest request);
+		Task<string> CreateConversation(NewConversationRequest request);
 	}
 
 	public class ManagementService : IManagementService
@@ -72,18 +72,18 @@ namespace ChatApp.Core.Services
 			}
 		}
 
-		public async Task<Guid> CreateConversation(NewConversationRequest request)
+		public async Task<string> CreateConversation(NewConversationRequest request)
 		{
 			try
 			{
 				var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 				var responseData = await _apiHelper.Post("conversations", content);
-				return JsonConvert.DeserializeObject<Guid>(responseData.Data.ToString());
+				return responseData.Data.ToString();
 			}
 			catch (Exception e)
 			{
 				Console.WriteLine(e);
-				return Guid.Empty;
+				return null;
 			}
 		}
 	}

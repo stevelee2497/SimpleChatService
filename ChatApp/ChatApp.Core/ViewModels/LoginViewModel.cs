@@ -59,7 +59,7 @@ namespace ChatApp.Core.ViewModels
 					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = _dataModel.User.Id; })
 					.Build();
 
-				_connection.On<MessageResponse>("ReceiveMessage", message => { });
+				_connection.On<Message>("ReceiveMessage", message => { });
 
 				UserViewModels.Clear();
 				UserViewModels.AddRange((await _managementService.GetUserFriendList(_dataModel.User.Id))

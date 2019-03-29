@@ -7,9 +7,9 @@ namespace ChatApp.Core.Models.Requests
 	public class NewConversationRequest
 	{
 		[DataMember(Name = "userId")]
-		public Guid UserId { get; set; }
+		public string UserId { get; set; }
 
 		[DataMember(Name = "friendId")]
-		public Guid FriendId { get; set; }
+		public string FriendId { get; set; }
 	}
 }

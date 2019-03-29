@@ -5,26 +5,9 @@ namespace ChatApp.Core.Models
 	[DataContract]
 	public class Message
 	{
-		public string MessageContent { get; set; }
+		[DataMember(Name = "Id")]
+		public string Id { get; set; }
 
-		public User User { get; set; }
-
-		public Conversation Conversation { get; set; }
-	}
-
-	[DataContract]
-	public class MessageResponse
-	{
-		[DataMember(Name = "userDisplayName")]
-		public string UserDisplayName { get; set; }
-
-		[DataMember(Name = "messageContent")]
-		public string MessageContent { get; set; }
-	}
-
-	[DataContract]
-	public class MessageRequest
-	{
 		[DataMember(Name = "userId")]
 		public string UserId { get; set; }
 
@@ -36,5 +19,11 @@ namespace ChatApp.Core.Models
 
 		[DataMember(Name = "messageContent")]
 		public string MessageContent { get; set; }
+
+		[DataMember(Name = "displayName")]
+		public string DisplayName { get; set; }
+
+		[DataMember(Name = "avatarUrl")]
+		public string AvatarUrl { get; set; }
 	}
 }

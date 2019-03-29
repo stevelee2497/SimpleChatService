@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace ChatApp.Core.Models
 {
+	[DataContract]
 	public class Conversation
 	{
 		[DataMember(Name = "id")]
-		public Guid Id { get; set; }
+		public string Id { get; set; }
 
 		[DataMember(Name = "users")]
 		public List<User> Users { get; set; }

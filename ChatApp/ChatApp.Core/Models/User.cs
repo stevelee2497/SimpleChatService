@@ -8,10 +8,10 @@ namespace ChatApp.Core.Models
 		[DataMember(Name = "id")]
 		public string Id { get; set; }
 
-		[DataMember(Name = "displayName")]
-		public string DisplayName { get; set; }
-
 		[DataMember(Name = "avatarUrl")]
 		public string AvatarUrl { get; set; }
+
+		[DataMember(Name = "displayName")]
+		public string DisplayName { get; set; }
 	}
 }

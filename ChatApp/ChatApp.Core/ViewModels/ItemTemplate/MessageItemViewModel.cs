@@ -2,6 +2,7 @@
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
 using System.Collections.Generic;
+using ChatApp.Core.Models;
 
 namespace ChatApp.Core.ViewModels.ItemTemplate
 {
@@ -31,10 +32,10 @@ namespace ChatApp.Core.ViewModels.ItemTemplate
 		private string _avatarUrl;
 		private bool _isOthersMessages;
 
-		public MessageItemViewModel(string messageContent, string avatarUrl, bool isOthersMessages)
+		public MessageItemViewModel(Message message, bool isOthersMessages)
 		{
-			_messageContent = messageContent;
-			_avatarUrl = avatarUrl;
+			_messageContent = message.MessageContent;
+			_avatarUrl = message.AvatarUrl;
 			_isOthersMessages = isOthersMessages;
 		}
 	}
