@@ -92,7 +92,7 @@ namespace ChatServer.BLL.Services
 			var isSaved = true;
 			var conversation = Include(x => x.UserConversations).FirstOrDefault(x =>
 				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.UserId) &&
-				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.ReceiverId));
+				x.UserConversations.Exists(uc => uc.UserId == conversationRequest.FriendId));
 
 			if (conversation == null)
 			{
@@ -107,7 +107,7 @@ namespace ChatServer.BLL.Services
 					new UserConversation
 					{
 						ConversationId = conversation.Id,
-						UserId = conversationRequest.ReceiverId
+						UserId = conversationRequest.FriendId
 					}
 				}, out isSaved);
 			}

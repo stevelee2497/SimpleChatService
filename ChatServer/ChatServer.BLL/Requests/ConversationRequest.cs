@@ -9,7 +9,7 @@ namespace ChatServer.BLL.Requests
 		[DataMember(Name = "userId")]
 		public Guid UserId { get; set; }
 
-		[DataMember(Name = "receiverId")]
-		public Guid ReceiverId { get; set; }
+		[DataMember(Name = "friendId")]
+		public Guid FriendId { get; set; }
 	}
 }
