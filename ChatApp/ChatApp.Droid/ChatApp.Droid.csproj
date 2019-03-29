@@ -82,7 +82,7 @@
     <Compile Include="TemplateSelectors\MessageTemplateSelector.cs" />
     <Compile Include="Views\Base\BaseActivity.cs" />
     <Compile Include="Views\Base\BaseFragment.cs" />
-    <Compile Include="Views\HomeView.cs" />
+    <Compile Include="Views\ConversationView.cs" />
     <Compile Include="Views\LoginView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +91,7 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\home_view.axml">
+    <AndroidResource Include="Resources\layout\conversation_view.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\values\colors.xml" />

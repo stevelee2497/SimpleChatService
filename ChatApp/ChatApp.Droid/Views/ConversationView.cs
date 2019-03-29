@@ -7,9 +7,9 @@ namespace ChatApp.Droid.Views
 {
 	[MvxActivityPresentation]
 	[Activity(Label = "Home View", ScreenOrientation = ScreenOrientation.Portrait)]
-	public class HomeView : BaseActivity
+	public class ConversationView : BaseActivity
 	{
-		protected override int LayoutId => Resource.Layout.home_view;
+		protected override int LayoutId => Resource.Layout.conversation_view;
 
 		protected override void InitView()
 		{

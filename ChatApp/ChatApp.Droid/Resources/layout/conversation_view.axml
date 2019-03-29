@@ -11,14 +11,15 @@
         android:layout_height="50dp"
         android:background="@color/colorPrimary">
 
-		<ImageView
+		<ffimageloading.cross.MvxCachedImageView
             android:id="@+id/imgAvatar"
             android:layout_width="@dimen/image_avatar_size"
             android:layout_height="@dimen/image_avatar_size"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/margin_normal"
-            android:src="@drawable/default_avatar" />
+            android:src="@drawable/default_avatar" 
+			local:MvxBind="ImagePath FriendAvatarUrl"/>
 
 		<TextView
             android:layout_width="wrap_content"
@@ -28,7 +29,8 @@
             android:layout_toRightOf="@+id/imgAvatar"
             android:text="Quoc Tran"
             android:textColor="@color/white"
-            android:textSize="@dimen/large_text_size" />
+            android:textSize="@dimen/large_text_size"
+			local:MvxBind="Text FriendUserName"/>
 
 		<ImageView
             android:layout_width="wrap_content"
