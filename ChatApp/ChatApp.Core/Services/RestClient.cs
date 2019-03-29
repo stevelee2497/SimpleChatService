@@ -84,7 +84,7 @@ namespace ChatApp.Core.Services
 				return new BaseResponse
 				{
 					NetworkStatus = NetworkStatus.Exception,
-					ErrorMessage = $"Error: \"{e.Message}\" with request: {url}"
+					ErrorMessage = $"Error: \"{e.Message}\" with request: {AppConstants.ApiUrl}/{url}"
 				};
 			};
 		}
