@@ -63,7 +63,7 @@ namespace ChatApp.Core.ViewModels
 
 				UserViewModels.Clear();
 				UserViewModels.AddRange((await _managementService.GetUserFriendList(_dataModel.User.Id))
-					.Select(x => new UserViewModel(x.AvatarUrl, x.DisplayName)));
+					.Select(x => new UserViewModel(x)));
 
 				await _connection.StartAsync();
 			}

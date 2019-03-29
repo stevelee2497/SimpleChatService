@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ChatApp.Core.Models;
 using ChatApp.Core.ViewModels.Base;
 using FFImageLoading.Transformations;
 using FFImageLoading.Work;
+using MvvmCross.Commands;
 
 namespace ChatApp.Core.ViewModels.ItemTemplate
 {
@@ -21,13 +24,24 @@ namespace ChatApp.Core.ViewModels.ItemTemplate
 			set => SetProperty(ref _userDisplayName, value);
 		}
 
+		public IMvxCommand OnItemClick => _onItemClick ?? (_onItemClick = new MvxAsyncCommand(OpenConversation));
+
+		private User _user;
 		private string _avatarUrl;
 		private string _userDisplayName;
+		private IMvxCommand _onItemClick;
+		
 
-		public UserViewModel(string avatarUrl, string userDisplayName)
+		public UserViewModel(User user)
 		{
-			_avatarUrl = avatarUrl;
-			_userDisplayName = userDisplayName;
+			_user = user;
+			_avatarUrl = user.AvatarUrl;
+			_userDisplayName = user.DisplayName;
+		}
+
+		private Task OpenConversation()
+		{
+			return NavigationService.Navigate<ConversationViewModel, User>(_user);
 		}
 	}
 }

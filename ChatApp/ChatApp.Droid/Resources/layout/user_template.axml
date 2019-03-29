@@ -5,7 +5,8 @@
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:padding="@dimen/margin_normal">
+              android:padding="@dimen/margin_normal"
+			  local:MvxBind="Click OnItemClick">
 
 	<ffimageloading.cross.MvxCachedImageView
 		android:layout_width="@dimen/image_avatar_size"
