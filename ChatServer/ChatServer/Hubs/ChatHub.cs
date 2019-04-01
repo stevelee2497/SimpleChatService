@@ -51,16 +51,13 @@ namespace ChatServer.Hubs
 		// ReSharper disable UnusedMember.Global
 		public async Task SendMessage(MessageRequest messageRequest)
 		{
+			await Clients.Group(messageRequest.ConversationId.ToLower()).SendAsync("ReceiveMessage", messageRequest);
 			_messageService.Create(new Message
 			{
 				UserConversationId = Guid.Parse(messageRequest.UserConversationId),
 				MessageContent = messageRequest.MessageContent
 			}, out _);
-			await Clients.Group(messageRequest.ConversationId.ToLower()).SendAsync("ReceiveMessage", new MessageResponse
-			{
-				MessageContent = messageRequest.MessageContent,
-				UserDisplayName = _userService.Find(Guid.Parse(messageRequest.UserId)).DisplayName
-			});
+			await Task.Delay(2000);
 		}
 
 		public async Task AddToGroup(string groupId)

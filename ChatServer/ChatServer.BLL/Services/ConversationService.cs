@@ -43,6 +43,27 @@ namespace ChatServer.BLL.Services
 			if (requestParams.UserId != Guid.Empty)
 			{
 				conversations = conversations.Where(g => g.Any(c => c.UserConversation.UserId == requestParams.UserId));
+
+				return new BaseResponse(
+					HttpStatusCode.OK,
+					data: conversations.Select(g => new
+					{
+						id = g.Key,
+						user = g.GroupBy(u => u.UserConversation).Select(gg => new
+						{
+							Id = gg.Key.UserId,
+							userConversationId = gg.Key.Id,
+							gg.Key.User.DisplayName,
+							gg.Key.User.AvatarUrl
+						}).First(u => u.Id != requestParams.UserId),
+						lastMessages = g.Select(x => new
+						{
+							x.Id,
+							x.UserConversation.User.DisplayName,
+							x.MessageContent,
+							x.CreatedTime
+						}).OrderByDescending(x => x.CreatedTime).First()
+					}).OrderByDescending(x => x.lastMessages.CreatedTime));
 			}
 
 			return new BaseResponse(
@@ -79,11 +100,12 @@ namespace ChatServer.BLL.Services
 						.Select(g => new
 						{
 							id = g.Key,
-							users = g.GroupBy(u => u.UserConversation.User).Select(gg => new
+							users = g.GroupBy(u => u.UserConversation).Select(gg => new
 							{
-								gg.Key.Id,
-								gg.Key.AvatarUrl,
-								gg.Key.DisplayName
+								Id = gg.Key.UserId,
+								userConversationId = gg.Key.Id,
+								gg.Key.User.AvatarUrl,
+								gg.Key.User.DisplayName
 							}),
 							messages = g.OrderByDescending(x => x.CreatedTime).Select(x => new
 							{

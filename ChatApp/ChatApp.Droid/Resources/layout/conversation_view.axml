@@ -57,13 +57,13 @@
         android:padding="8dp">
 
 		<EditText
-            android:id="@+id/commentText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@null"
-            local:MvxBind="Hint SendMessageHint" />
+			android:paddingLeft="8dp"
+            local:MvxBind="Hint SendMessageHint; Text Message" />
 
 		<chatapp.droid.controls.CustomImageView
             android:layout_width="@dimen/sent_comment_size"

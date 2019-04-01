@@ -13,5 +13,8 @@ namespace ChatApp.Core.Models
 
 		[DataMember(Name = "displayName")]
 		public string DisplayName { get; set; }
+
+		[DataMember(Name = "userConversationId")]
+		public string UserConversationId { get; set; }
 	}
 }

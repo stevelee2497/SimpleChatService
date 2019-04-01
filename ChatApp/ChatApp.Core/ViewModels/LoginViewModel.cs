@@ -2,7 +2,6 @@
 using ChatApp.Core.Services;
 using ChatApp.Core.ViewModels.Base;
 using ChatApp.Core.ViewModels.ItemTemplate;
-using Microsoft.AspNetCore.SignalR.Client;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 using System;
@@ -35,7 +34,6 @@ namespace ChatApp.Core.ViewModels
 
 		private string _userIndex;
 		private string _userName;
-		private HubConnection _connection;
 		private IMvxCommand _loginCommand;
 		private readonly IDataModel _dataModel;
 		private readonly IManagementService _managementService;
@@ -55,17 +53,9 @@ namespace ChatApp.Core.ViewModels
 				_dataModel.User = await _managementService.Login(Convert.ToInt32(UserIndex));
 				UserName = _dataModel.User.DisplayName;
 
-				_connection = new HubConnectionBuilder()
-					.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = _dataModel.User.Id; })
-					.Build();
-
-				_connection.On<Message>("ReceiveMessage", message => { });
-
 				UserViewModels.Clear();
 				UserViewModels.AddRange((await _managementService.GetUserFriendList(_dataModel.User.Id))
 					.Select(x => new UserViewModel(x)));
-
-				await _connection.StartAsync();
 			}
 			catch (Exception e)
 			{
