@@ -58,7 +58,6 @@ namespace ChatApp.Core.ViewModels
 		private string _message;
 		private string _friendUserName;
 		private string _friendAvatarUrl;
-		private string _ourUserConversationId;
 		private HubConnection _connection;
 		private Conversation _conversation;
 		private IMvxCommand _sendCommentCommand;
@@ -93,8 +92,7 @@ namespace ChatApp.Core.ViewModels
 				FriendId = _friend.Id
 			});
 
-			_conversation = await _managementService.FetchConversation(conversationId);
-			_ourUserConversationId = _conversation.Users.First(u => !u.Id.ToUpper().Equals(_friend.Id.ToUpper())).UserConversationId;
+			_conversation = await _managementService.FetchConversation(conversationId, _dataModel.User.Id);
 
 			MessageItemViewModels =
 				new MvxObservableCollection<MessageItemViewModel>(_conversation.Messages.Select(ConvertToItemViewModel));
@@ -116,7 +114,7 @@ namespace ChatApp.Core.ViewModels
 			var message = new Message
 			{
 				UserId = _dataModel.User.Id,
-				UserConversationId = _ourUserConversationId,
+				UserConversationId = _conversation.UserConversationId,
 				ConversationId = _conversation.Id,
 				MessageContent = Message,
 			};

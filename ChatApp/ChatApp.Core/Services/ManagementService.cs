@@ -13,7 +13,7 @@ namespace ChatApp.Core.Services
 	{
 		Task<List<User>> GetUserFriendList(string userId);
 		Task<User> Login(int userIndex);
-		Task<Conversation> FetchConversation(string conversationId);
+		Task<Conversation> FetchConversation(string conversationId, string userId);
 		Task<string> CreateConversation(NewConversationRequest request);
 	}
 
@@ -58,11 +58,12 @@ namespace ChatApp.Core.Services
 			}
 		}
 
-		public async Task<Conversation> FetchConversation(string conversationId)
+		public async Task<Conversation> FetchConversation(string conversationId, string userId)
 		{
 			try
 			{
-				var responseData = await _apiHelper.Get($"conversations/{conversationId}");
+				var @params = new Dictionary<string, string> {{"userId", userId}};
+				var responseData = await _apiHelper.Get($"conversations/{conversationId}", parameters:@params);
 				return JsonConvert.DeserializeObject<Conversation>(responseData.Data.ToString());
 			}
 			catch (Exception e)

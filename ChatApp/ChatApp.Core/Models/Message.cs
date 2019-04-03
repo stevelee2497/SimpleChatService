@@ -25,5 +25,8 @@ namespace ChatApp.Core.Models
 
 		[DataMember(Name = "avatarUrl")]
 		public string AvatarUrl { get; set; }
+
+		[DataMember(Name = "createdTime")]
+		public string CreatedTime { get; set; }
 	}
 }
