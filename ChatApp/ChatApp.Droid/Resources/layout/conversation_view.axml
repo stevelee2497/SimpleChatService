@@ -19,7 +19,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/margin_normal"
             android:src="@drawable/default_avatar" 
-			local:MvxBind="ImagePath FriendAvatarUrl; Transformations Transformations"/>
+			local:MvxBind="Transformations Transformations; ImagePath FriendAvatarUrl"/>
 
 		<TextView
             android:layout_width="wrap_content"

@@ -26,7 +26,7 @@ namespace ChatApp.Core.ViewModels.ItemTemplate
 
 		public IMvxCommand OnItemClick => _onItemClick ?? (_onItemClick = new MvxAsyncCommand(OpenConversation));
 
-		private User _user;
+		private readonly User _user;
 		private string _avatarUrl;
 		private string _userDisplayName;
 		private IMvxCommand _onItemClick;
