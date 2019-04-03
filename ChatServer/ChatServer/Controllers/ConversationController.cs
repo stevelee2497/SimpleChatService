@@ -34,12 +34,13 @@ namespace ChatServer.Controllers
 		/// Get conversations of a specific user
 		/// </summary>
 		/// <param name="id"></param>
+		/// <param name="@params"></param>
 		/// <returns>BaseResponse</returns>
 		[HttpGet("{id}")]
 		[Produces("application/json")]
-		public BaseResponse GetConversationDetail(Guid id)
+		public BaseResponse GetConversationDetail(Guid id, [FromHeader]IDictionary<string, string> @params)
 		{
-			return _conversationService.GetConversationDetail(id);
+			return _conversationService.GetConversationDetail(id, @params);
 		}
 
 		/// <summary>

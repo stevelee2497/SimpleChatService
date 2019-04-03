@@ -57,7 +57,6 @@ namespace ChatServer.Hubs
 				UserConversationId = Guid.Parse(messageRequest.UserConversationId),
 				MessageContent = messageRequest.MessageContent
 			}, out _);
-			await Task.Delay(2000);
 		}
 
 		public async Task AddToGroup(string groupId)
