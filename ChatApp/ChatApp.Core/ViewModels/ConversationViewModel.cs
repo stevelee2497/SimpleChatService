@@ -95,7 +95,8 @@ namespace ChatApp.Core.ViewModels
 			_conversation = await _managementService.FetchConversation(conversationId, _dataModel.User.Id);
 
 			MessageItemViewModels =
-				new MvxObservableCollection<MessageItemViewModel>(_conversation.Messages.Select(ConvertToItemViewModel));
+				new MvxObservableCollection<MessageItemViewModel>(
+					_conversation.Messages.Select(ConvertToItemViewModel));
 
 			_connection = new HubConnectionBuilder()
 				.WithUrl(AppConstants.ChatHubUrl, options => { options.Headers["userId"] = _dataModel.User.Id; })
@@ -124,8 +125,14 @@ namespace ChatApp.Core.ViewModels
 
 		private void ReceiveMessage(Message message)
 		{
+			if (!message.ConversationId.Equals(_conversation.Id))
+			{
+				return;
+			}
+
 			message.AvatarUrl = FriendAvatarUrl;
-			MessageItemViewModels.Insert(0, new MessageItemViewModel(message, message.UserId.ToUpper().Equals(_friend.Id.ToUpper())));
+			MessageItemViewModels.Insert(0,
+				new MessageItemViewModel(message, message.UserId.ToUpper().Equals(_friend.Id.ToUpper())));
 			_scrollToBottom.Raise();
 		}
 	}

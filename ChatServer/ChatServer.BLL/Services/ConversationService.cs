@@ -113,6 +113,7 @@ namespace ChatServer.BLL.Services
 							{
 								x.Id,
 								x.UserConversation.UserId,
+								x.UserConversation.User.AvatarUrl,
 								x.UserConversation.User.DisplayName,
 								x.MessageContent,
 								x.CreatedTime
