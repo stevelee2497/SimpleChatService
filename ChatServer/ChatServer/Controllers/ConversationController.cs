@@ -34,7 +34,7 @@ namespace ChatServer.Controllers
 		/// Get conversations of a specific user
 		/// </summary>
 		/// <param name="id"></param>
-		/// <param name="@params"></param>
+		/// <param name="params"></param>
 		/// <returns>BaseResponse</returns>
 		[HttpGet("{id}")]
 		[Produces("application/json")]

@@ -94,35 +94,30 @@ namespace ChatServer.BLL.Services
 			// get all conversations of user having the id = @userId
 			if (requestParams.UserId != Guid.Empty)
 			{
-				var conversation = _messageService.Include(x => x.UserConversation).ThenInclude(x => x.Conversation)
-					.Include(x => x.UserConversation).ThenInclude(x => x.User)
-					.OrderByDescending(x => x.CreatedTime)
-					.GroupBy(x => x.UserConversation.Conversation)
-					.Where(x => x.Key.Id == id)
-					.Select(g => new
+				var c = Include(x => x.UserConversations).ThenInclude(x => x.User)
+					.Include(x => x.UserConversations).ThenInclude(x => x.Messages)
+					.Where(x => x.Id.Equals(id))
+					.Select(x => new Conversation
 					{
-						id = g.Key.Id,
-						userConversationId = g.Key.UserConversations.First(x => x.UserId == requestParams.UserId).Id,
-						user = g.Key.UserConversations.Select(x => new
+						Id = x.Id,
+						UserConversationId = x.UserConversations.FirstOrDefault(uc => uc.UserId == requestParams.UserId).Id,
+						Users = x.UserConversations.Select(uc => uc.User).Where(u => u.Id != requestParams.UserId),
+						Messages = x.UserConversations.SelectMany(uc => uc.Messages).OrderByDescending(m => m.CreatedTime).Select(m => new Message
 						{
-							Id = x.UserId,
-							x.User.DisplayName,
-							x.User.AvatarUrl
-						}).First(u => u.Id != requestParams.UserId),
-						messages = g.Select(x => new
-							{
-								x.Id,
-								x.UserConversation.UserId,
-								x.UserConversation.User.AvatarUrl,
-								x.UserConversation.User.DisplayName,
-								x.MessageContent,
-								x.CreatedTime
-							})
+							Id = m.Id,
+							UserId = m.UserConversation.UserId,
+							AvatarUrl = m.UserConversation.User.AvatarUrl,
+							DisplayName = m.UserConversation.User.DisplayName,
+							MessageContent = m.MessageContent,
+							CreatedTime = m.CreatedTime
+						})
 					})
-					.First();
+					.FirstOrDefault();
+
+				
 				return new BaseResponse(
 					HttpStatusCode.OK,
-					data: conversation);
+					data: c);
 			}
 
 			throw new BadRequestException("Missing params detected");
